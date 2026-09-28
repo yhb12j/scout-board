@@ -236,7 +236,7 @@ function syncCollectButton() {
   }
   if (state.plan.needs_review) {
     button.disabled = true;
-    warning.textContent = "Сбор недоступен: запрос требует проверки.";
+    warning.textContent = "Кнопка «Собрать» заблокирована: запрос требует ручной проверки.";
     return;
   }
   button.disabled = false;
