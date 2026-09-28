@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scout Board</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="eyebrow">Мониторинг новостей</p>
+      <h1>Scout Board</h1>
+      <p class="lead">Публичные новости по запросу: план, сбор и выгрузка в таблицу.</p>
+    </div>
+    <div class="active-box">
+      <span>Активный набор</span>
+      <strong id="active-label">не выбран</strong>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <nav class="tabs" aria-label="Разделы">
+    <button type="button" class="tab is-active" data-tab="datasets">Наборы</button>
+    <button type="button" class="tab" data-tab="collect">Сбор</button>
+    <button type="button" class="tab" data-tab="showcase">Витрина</button>
+    <button type="button" class="tab" data-tab="audit">Аудит</button>
+  </nav>
+
+  <main>
+    <section id="panel-datasets">
+      <h2>Наборы</h2>
+      <div id="datasets-message" class="message" hidden></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>source</th>
+              <th>created_at</th>
+              <th>dataset_id</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="datasets-body"></tbody>
+        </table>
+      </div>
+      <p id="datasets-empty" class="empty" hidden>Наборов пока нет.</p>
+
+      <form id="create-form" class="card">
+        <h3>Создать набор данных</h3>
+        <label>name
+          <input name="name" required maxlength="200" placeholder="Например: Новости недели">
+        </label>
+        <label>source
+          <input name="source" required maxlength="200" value="GNews">
+        </label>
+        <button type="submit">Создать</button>
+      </form>
+    </section>
+
+    <section id="panel-collect" hidden>
+      <h2>Сбор</h2>
+      <p id="collect-dataset" class="active-line">Набор не выбран.</p>
+      <div id="collect-message" class="message" hidden></div>
+
+      <form id="plan-form" class="card">
+        <label>query
+          <textarea id="query" name="query" rows="4" maxlength="1000" placeholder="Тема, период и поля для сохранения"></textarea>
+        </label>
+        <div class="row">
+          <button type="submit" id="plan-button">Спланировать</button>
+          <button type="button" id="collect-button" disabled>Собрать</button>
+        </div>
+        <p id="collect-warning" class="hint">Сначала постройте план.</p>
+      </form>
+
+      <div id="review-box" class="review" hidden>
+        <h3>Нужна проверка</h3>
+        <p id="review-reason"></p>
+        <ul id="review-hints"></ul>
+      </div>
+
+      <div id="plan-box" class="card" hidden>
+        <h3>План</h3>
+        <p>Уверенность: <strong id="plan-confidence"></strong></p>
+        <p>Поля: <span id="plan-fields"></span></p>
+        <ol id="plan-steps"></ol>
+        <p class="hint">Запрос к источнику</p>
+        <pre id="plan-url"></pre>
+        <h3>Ответ</h3>
+        <pre id="plan-raw"></pre>
+      </div>
+
+      <div id="saved-box" class="ok-box" hidden>
+        <p id="saved-text"></p>
+        <button type="button" id="open-showcase">Открыть витрину</button>
+      </div>
+    </section>
+
+    <section id="panel-showcase" hidden>
+      <h2>Витрина</h2>
+      <div class="row">
+        <label>limit
+          <select id="limit">
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="500">500</option>
+          </select>
+        </label>
+        <button type="button" id="reload-records">Обновить</button>
+        <button type="button" id="download-json">Скачать JSON</button>
+        <button type="button" id="download-csv">Скачать CSV</button>
+      </div>
+      <p id="showcase-caption" class="hint"></p>
+      <div id="showcase-message" class="message" hidden></div>
+      <div class="table-wrap">
+        <table>
+          <thead id="records-head"></thead>
+          <tbody id="records-body"></tbody>
+        </table>
+      </div>
+      <p id="records-empty" class="empty" hidden>Записей пока нет.</p>
+    </section>
+
+    <section id="panel-audit" hidden>
+      <h2>Аудит</h2>
+      <button type="button" id="reload-audit">Обновить журнал</button>
+      <h3>audit_runs</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>created_at</th>
+              <th>action</th>
+              <th>status</th>
+              <th>duration_ms</th>
+              <th>error</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="audit-body"></tbody>
+        </table>
+      </div>
+      <h3>agent_runs</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>created_at</th>
+              <th>query</th>
+              <th>needs_review</th>
+              <th>error</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="agent-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="modal">
+    <div class="modal-head">
+      <h3 id="modal-title">Подробности</h3>
+      <button type="button" id="modal-close">Закрыть</button>
+    </div>
+    <pre id="modal-body"></pre>
+  </dialog>
+
+  <footer>Scout Board</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

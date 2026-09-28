@@ -1,0 +1,10 @@
+{"dataset_name":"demo","query":"Собери новости за последние 24 часа по запросу «скидки» и сохрани поля title, date, source, url","expected_needs_review":false,"why":"Есть тема «скидки», период 24 часа и список полей."}
+{"dataset_name":"demo","query":"Собери новости по запросу «ноутбук» за последние 7 дней и сохрани поля title, date, source, url","expected_needs_review":false,"why":"Есть тема «ноутбук», период 7 дней и список полей."}
+{"dataset_name":"demo","query":"Собери последние 10 новостей по запросу «технологии» и сохрани поля title, date, source, url","expected_needs_review":false,"why":"Есть тема «технологии», количество 10 и список полей."}
+{"dataset_name":"demo","query":"Собери новости за последние 7 дней по запросу «экономика» и сохрани поля title, date, source, url","expected_needs_review":false,"why":"Есть тема «экономика», период 7 дней и список полей."}
+{"dataset_name":"demo","query":"Собери новости по запросу «кофе» за последние 48 часов и сохрани поля title, date, source, url","expected_needs_review":false,"why":"Есть тема «кофе», период 48 часов и список полей."}
+{"dataset_name":"demo","query":"Собери 10 новостей по запросу «транспорт» и сохрани поля title, date, source, url","expected_needs_review":false,"why":"Есть тема «транспорт», количество 10 и список полей."}
+{"dataset_name":"demo","query":"Собери новости по запросу «доставка» за последние 48 часов и сохрани поля title, date, source, url","expected_needs_review":false,"why":"Есть тема «доставка», период 48 часов и список полей."}
+{"dataset_name":"demo","query":"Собери самое важное","expected_needs_review":true,"why":"Двусмысленно: нет темы и нет ограничения."}
+{"dataset_name":"demo","query":"Собери данные по рынку и сделай вывод","expected_needs_review":true,"why":"Двусмысленно: неясно, что собирать, и просят вывод."}
+{"dataset_name":"demo","query":"Собери закрытую статистику по всем конкурентам за год","expected_needs_review":true,"why":"Невыполнимо: закрытой статистики конкурентов в GNews нет."}
