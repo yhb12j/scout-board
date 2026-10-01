@@ -55,13 +55,18 @@ function showTab(name) {
 }
 
 function showActive() {
-  const label = state.dataset
-    ? state.dataset.name + " · " + state.dataset.source
-    : "не выбран";
-  $("active-label").textContent = label;
   $("collect-dataset").textContent = state.dataset
     ? state.dataset.name + " · " + state.dataset.source
     : "Набор не выбран.";
+}
+
+function formatCreatedAt(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  const pad = (part) => String(part).padStart(2, "0");
+  return pad(date.getDate()) + "." + pad(date.getMonth() + 1) + "." + date.getFullYear()
+    + " " + pad(date.getHours()) + ":" + pad(date.getMinutes());
 }
 
 async function api(path, options = {}) {
@@ -116,11 +121,14 @@ async function loadDatasets() {
   rows.forEach((row) => {
     const tr = document.createElement("tr");
     if (state.dataset && state.dataset.dataset_id === row.dataset_id) tr.className = "is-selected";
-    ["name", "source", "created_at", "dataset_id"].forEach((key) => {
+    ["name", "source"].forEach((key) => {
       const td = document.createElement("td");
       td.textContent = row[key];
       tr.appendChild(td);
     });
+    const created = document.createElement("td");
+    created.textContent = formatCreatedAt(row.created_at);
+    tr.appendChild(created);
     const action = document.createElement("td");
     const button = document.createElement("button");
     button.type = "button";
@@ -140,7 +148,7 @@ function selectDataset(row) {
   };
   localStorage.setItem("scout_dataset", JSON.stringify(state.dataset));
   showActive();
-  showMessage("datasets-message", "Выбран набор «" + row.name + "».");
+  showMessage("datasets-message", "");
   loadDatasets();
 }
 
@@ -157,7 +165,6 @@ async function createDataset(event) {
     return;
   }
   form.name.value = "";
-  showMessage("datasets-message", "Набор создан. Идентификатор: " + result.data.dataset_id);
   await loadDatasets();
   selectDataset({
     dataset_id: result.data.dataset_id,
@@ -165,6 +172,7 @@ async function createDataset(event) {
     source: payload.source,
     created_at: "",
   });
+  showMessage("datasets-message", "Набор создан.");
 }
 
 async function planQuery(event) {
@@ -196,8 +204,6 @@ function renderPlan(plan) {
     li.textContent = step;
     steps.appendChild(li);
   });
-  $("plan-url").textContent = plan.api_url || "Запрос к источнику не сформирован.";
-  $("plan-raw").textContent = JSON.stringify(plan, null, 2);
 
   const review = $("review-box");
   review.hidden = !plan.needs_review;

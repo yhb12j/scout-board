@@ -35,23 +35,11 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.04em; }
 h2 { margin: 0 0 6px; }
 h3 { margin: 0 0 8px; }
 
-.eyebrow, .lead, .hint, footer, .active-box span {
+.eyebrow, .hint, footer {
   color: var(--muted);
 }
 
 .eyebrow { margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; }
-.lead { max-width: 640px; }
-
-.active-box {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px 16px;
-  min-width: 240px;
-  box-shadow: var(--shadow);
-}
-
-.active-box strong { display: block; margin-top: 4px; }
 
 .tabs { width: min(1100px, calc(100% - 32px)); margin: 8px auto 18px; display: flex; gap: 8px; flex-wrap: wrap; }
 

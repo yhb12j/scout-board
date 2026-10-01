@@ -11,11 +11,6 @@
     <div>
       <p class="eyebrow">Мониторинг новостей</p>
       <h1>Scout Board</h1>
-      <p class="lead">Публичные новости по запросу: план, сбор и выгрузка в таблицу.</p>
-    </div>
-    <div class="active-box">
-      <span>Активный набор</span>
-      <strong id="active-label">не выбран</strong>
     </div>
   </header>
 
@@ -38,8 +33,7 @@
             <tr>
               <th>name</th>
               <th>source</th>
-              <th>created_at</th>
-              <th>dataset_id</th>
+              <th>Дата создания</th>
               <th></th>
             </tr>
           </thead>
@@ -89,10 +83,6 @@
         <p>Уверенность: <strong id="plan-confidence"></strong></p>
         <p>Поля: <span id="plan-fields"></span></p>
         <ol id="plan-steps"></ol>
-        <p class="hint">Запрос к источнику</p>
-        <pre id="plan-url"></pre>
-        <h3>Ответ</h3>
-        <pre id="plan-raw"></pre>
       </div>
 
       <div id="saved-box" class="ok-box" hidden>
